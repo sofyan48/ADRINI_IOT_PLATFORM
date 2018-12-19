@@ -21,29 +21,28 @@ class UserloginInsert(Resource):
         args = parser.parse_args()
         password_hash = pbkdf2_sha256.hash(args['password'])
         data_insert = {
-            "id_userdata" : args['id_userdata'],
+            "id_userdata" : args['userdata_id'],
             "username" : args['username'],
             "password" : password_hash,
         }
 
         try:
-            db.insert(table="userlogin", data=data_insert)
+            db.insert(table="tb_user", data=data_insert)
         except Exception as e:
-            message = {
+            respon = {
                 "status": False,
                 "error": str(e)
             }
         else:
             data_insert = {
-                "userdata_id" : args['id_userdata'],
+                "userdata_id" : args['userdata_id'],
                 "username" : args['username'],
             }
-            message = {
+            respon = {
                 "status": True,
                 "data": data_insert
             }
-        finally:
-            return response(200, message=message)
+            return response(200, message=respon)
 
 class UserTokenRefresh(Resource):
     @jwt_refresh_token_required

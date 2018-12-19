@@ -2,7 +2,6 @@ from flask_restful import Resource, reqparse, fields
 from app.helpers.rest import *
 from app.helpers.memcache import *
 from app.middlewares.auth import jwt_required
-import datetime
 from app.models import model as db
 
 
@@ -14,7 +13,7 @@ class UserdataResource(Resource):
         try:
             results = db.get_all("tb_userdata")
         except Exception:
-            return response(200, message="Users Data Not Found")
+            return response(200, message="Data Not Found")
         else:
             for i in results :
                 data = {
@@ -69,18 +68,18 @@ class UserdataInsert(Resource):
         try:
             result = db.insert(table="tb_userdata", data=data_insert)
         except Exception as e:
-            message = {
+            data = {
                 "status": False,
                 "error": str(e)
             }
+            return response(200, message=data)
         else:
-            message = {
+            data = {
                 "status": True,
                 "data": data_insert,
                 "id": result
             }
-        finally:
-            return response(200, message=message,)
+            return response(200, data=data)
 
 
 class UserdataRemove(Resource):
