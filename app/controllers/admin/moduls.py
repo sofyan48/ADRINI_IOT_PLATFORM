@@ -22,7 +22,7 @@ class ModulsResource(Resource):
                     "id_channels" : str(i['id_channels']),
                     "nm_field" : i['nm_field'],
                     "value_field" : i['value_field'],
-                    "created_at" : i['created_at'],
+                    "created_at" : str(i['created_at']),
                 }
                 obj_userdata.append(data)
             return response(200, data=obj_userdata)
@@ -44,7 +44,7 @@ class ModulsResourceById(Resource):
                 "id_channels" : str(i['id_channels']),
                 "nm_field" : i['nm_field'],
                 "value_field" : i['value_field'],
-                "created_at" : i['created_at'],
+                "created_at" : str(i['created_at']),
             }
             obj_userdata.append(data)
         return response(200, data=obj_userdata)

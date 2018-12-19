@@ -53,6 +53,14 @@ api.add_resource(ModulsInsert, '/moduls')
 api.add_resource(ModulsUpdate, '/moduls/<id_moduls>')
 api.add_resource(ModulsRemove, '/moduls/<id_moduls>')
 
+# widget
+# Moduls
+api.add_resource(WidgetResource, '/widget')
+api.add_resource(WidgetResourceById, '/widget/<id_widget>')
+api.add_resource(WidgetInsert, '/widget')
+api.add_resource(WidgetUpdate, '/widget/<id_widget>')
+api.add_resource(WidgetRemove, '/widget/<id_widget>')
+
 # POINT FITURED TRY
 api.add_resource(TestPoint, '/point_test')
 
