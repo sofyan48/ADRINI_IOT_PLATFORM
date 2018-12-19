@@ -13,6 +13,7 @@ CREATE TABLE tb_userdata (
 	location STRING NULL,
 	email STRING NULL,
 	CONSTRAINT tb_userdata_pk PRIMARY KEY (id_userdata ASC),
+	UNIQUE INDEX tb_userdata_un (email ASC),
 	FAMILY "primary" (id_userdata, first_name, last_name, location, email)
 );
 
@@ -71,3 +72,12 @@ CREATE TABLE tb_user (
 	INDEX tb_user_auto_index_tb_user_tb_userdata_fk (id_userdata ASC),
 	FAMILY "primary" (id_user, id_userdata, username, password)
 );
+
+INSERT INTO tb_userdata (id_userdata, first_name, last_name, location, email) VALUES
+	(410167896193204225, 'mongkey', 'king', 'alamat', 'meongbego@gmail.com');
+
+INSERT INTO tb_user (id_user, id_userdata, username, password) VALUES
+	(410168663988011009, 410167896193204225, 'mongkey', '$pbkdf2-sha256$29000$9d7b27v3fi.FsHYOgTDmfA$0x00H1i7cthqgyNY/wuNE3A7xd3.Cc.OUaH89td0jTY'),
+	(410168837119508481, 410167896193204225, 'mongkey', '$pbkdf2-sha256$29000$wzjHmPN.DyEEoHQuRSglBA$A0ISM08oaKfzToUAdOueSm/c/F7L9C5l85QkUJAFvO8'),
+	(410168918952280065, 410167896193204225, 'mongkey', '$pbkdf2-sha256$29000$AaBUaq11jnEu5TwnxLi3Vg$dJotKjiGbTnz6Io.MS.eSx.jpkDD1YGuXwSzGICL3NM'),
+	(410168949785067521, 410167896193204225, 'mongkey', '$pbkdf2-sha256$29000$/l8L4bw35lzrvTcGQAhhTA$iSUuzLt.6eP0i8lUjuP.D/z4Ki5ibShR0fABd5XHyZk');
