@@ -1,0 +1,47 @@
+version : adista 0.0.1
+
+endpoint:
+
+  point_test:
+    testing:
+      tags:
+        id_ttl:
+          name: ID search
+          desc: Domain Variabel To Search
+          type: tags
+      fields:
+        id_record:
+          name: ID search
+          desc: Domain Variabel To Search
+          type: tags
+      others:
+        method:
+          name: methode name
+          desc: Domain Variabel To Search
+      depend: func:test:getall:id_ttl
+      moduls:
+        getall:
+          parameters:
+            id_ttl: { get_tags: id_ttl }
+            id_record: { get_fields: id_field }
+
+    insert:
+      fields:
+        nm_test:
+          name: name search for domain
+          desc: Domain Variabel To Search
+          type: fields
+        value_test:
+          name: name search for domain
+          desc: Domain Variabel To Search
+          type: fields
+      others:
+        method:
+          name: name search for domain
+          desc: Domain Variabel To Search
+      moduls:
+        test:
+          action: save
+          parameters:
+            table : "table_data"
+            fields: $fields
