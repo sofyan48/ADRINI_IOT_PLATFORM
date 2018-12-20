@@ -46,7 +46,7 @@ class UserBoardResourceById(Resource):
 
 
 class UserBoardInsert(Resource):
-    # @jwt_required
+    @jwt_required
     def post(self):
         parser = reqparse.RequestParser()
         parser.add_argument('id_board', type=str, required=True)

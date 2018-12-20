@@ -50,7 +50,7 @@ class UserdataResourceById(Resource):
 
 
 class UserdataInsert(Resource):
-    # @jwt_required
+    @jwt_required
     def post(self):
         parser = reqparse.RequestParser()
         parser.add_argument('email', type=str, required=True)

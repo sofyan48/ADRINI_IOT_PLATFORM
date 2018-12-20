@@ -51,7 +51,7 @@ class ModulsResourceById(Resource):
 
 
 class ModulsInsert(Resource):
-    # @jwt_required
+    @jwt_required
     def post(self):
         parser = reqparse.RequestParser()
         parser.add_argument('id_channels', type=str, required=True)

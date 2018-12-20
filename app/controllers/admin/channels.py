@@ -49,7 +49,7 @@ class ChannelsResourceById(Resource):
 
 
 class ChannelsInsert(Resource):
-    # @jwt_required
+    @jwt_required
     def post(self):
         parser = reqparse.RequestParser()
         parser.add_argument('nm_channels', type=str, required=True)
