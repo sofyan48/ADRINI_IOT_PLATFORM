@@ -18,30 +18,28 @@ class SendModuls(Resource):
                     field="id_channels",
                     value=id_channels
                 )
-        for row in results :
-            for key in args:
-                message = []
-                if row['nm_field'] == key:
-                    data_insert = {
-                        "id_channels" : id_channels,
-                        "nm_field" : key,
-                        "value_field" : args[key]
-                    }
-                    # print(data_insert)
-                    try:
-                        result = db.insert(table="tb_moduls", data=data_insert)
-                    except Exception as e:
-                        message = {
-                            "status": False,
-                            "error": str(e)
-                        }
-                        report.append(message)
-                    else:
-                        message = {
-                            "data": data_insert,
-                            "id" : result
-                        }
-                        report.append(message)
+        for key in args :
+            message = []
+            data_insert = {
+                "id_channels" : id_channels,
+                "nm_field" : key,
+                "value_field" : args[key]
+            }
+            # print(data_insert)
+            try:
+                result = db.insert(table="tb_moduls", data=data_insert)
+            except Exception as e:
+                message = {
+                    "status": False,
+                    "error": str(e)
+                }
+                report.append(message)
+            else:
+                message = {
+                    "data": data_insert,
+                    "id" : result
+                }
+                report.append(message)
         return response(200, data=report)
 
 
