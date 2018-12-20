@@ -1,7 +1,7 @@
 from flask_restful import Resource, reqparse, fields
 from app.helpers.rest import *
 from app.helpers.memcache import *
-from app.middlewares.auth import jwt_required
+from app.middlewares.apikey_auth import apikey_required
 from app.models import model as db
 from app import db as dbq
 import uuid
@@ -42,38 +42,14 @@ class SendModuls(Resource):
                             "id" : result
                         }
                         report.append(message)
-
-                    # # kalo edit
-                    # data = {
-                    #     "where":{
-                    #         "id_moduls": str(row['id_moduls'])
-                    #     },
-                    #     "data":{
-                    #         "value_field" : args[key]
-                    #     }
-                    # }
-                    # try:
-                    #     db.update("tb_moduls", data=data)
-                    # except Exception as e:
-                    #     message = {
-                    #         "status": False,
-                    #         "error": str(e)
-                    #     }
-                    #     report.append(message)
-                    # else:
-                    #     message = {
-                    #         "status": True,
-                    #         "data": data
-                    #     }
-                    #     report.append(message)
-        
         return response(200, data=report)
 
+
 class GetChannelsData(Resource):
+    @apikey_required
     def get(self, id_channels):
         obj_moduls = []
-        limit= request.args['page']
-        print(limit)
+        limit= request.args['count']
         if limit == "" or limit == "0":
             results = db.get_by_id(
                         table="tb_moduls",
@@ -93,8 +69,6 @@ class GetChannelsData(Resource):
         else:
             result_data= list()
             column = db.get_columns("tb_moduls")
-            limit= request.args['page']
-            print(limit)
             try:
                 result = list()
                 query = """select * from tb_moduls where id_channels="""+id_channels+""" order by created_at desc limit """+limit
@@ -106,8 +80,9 @@ class GetChannelsData(Resource):
             except Exception as e:
                 respons = {
                     "status": False,
-                    "messages": str(e)
+                    "error": str(e)
                 }
+                return response(200, data=respons)
             else:
                 for i in result :
                     data = {
@@ -117,12 +92,43 @@ class GetChannelsData(Resource):
                         "created_at" : str(i['created_at']),
                     }
                     result_data.append(data)
-                respons = {
-                    "status": True,
-                    "messages": "Fine!"
-                }
-            finally:
                 return response(200, data=result_data)
+
+class GetChannelDataByField(Resource):
+    def get(self, id_channels,page):
+        args = request.args
+        field = None
+        for i in args:
+            if field is None:
+                field = "nm_field='"+args[i]+"'"
+            else:
+                field = field+" or nm_field='"+args[i]+"'"
+        result_data= list()
+        column = db.get_columns("tb_moduls")
+        try:
+            result = list()
+            query = """select * from tb_moduls where id_channels="""+id_channels+""" and """+field+""" order by created_at desc limit """+page
+            print(query)
+            dbq.execute(query)
+            rows = dbq.fetchall()
+            for row in rows:
+                result.append(dict(zip(column, row)))
+        except Exception as e:
+            respons = {
+                "status": False,
+                "error": str(e)
+            }
+            return response(200, data=respons)
+        else:
+            for i in result :
+                data = {
+                    "id_moduls": str(i['id_moduls']),
+                    "id_channels" : str(i['id_channels']),
+                    i['nm_field'] : i['value_field'],
+                    "created_at" : str(i['created_at']),
+                }
+                result_data.append(data)
+            return response(200, data=result_data)
 
 
 
