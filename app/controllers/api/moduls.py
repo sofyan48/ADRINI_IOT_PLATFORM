@@ -13,11 +13,6 @@ class SendModuls(Resource):
     def get(self, id_channels):
         args = request.args
         report = []
-        results = db.get_by_id(
-                    table="tb_moduls",
-                    field="id_channels",
-                    value=id_channels
-                )
         for key in args :
             message = []
             data_insert = {

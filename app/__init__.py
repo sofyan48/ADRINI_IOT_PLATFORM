@@ -37,9 +37,11 @@ def create_app():
 
     from .controllers import api_blueprint
     from .controllers import admin_blueprint
-    from .controllers import swaggerui_blueprint
+    from .controllers import swaggerui_blueprint_admin
 
-    app.register_blueprint(swaggerui_blueprint, url_prefix=os.getenv('SWAGGER_URL'))
+    app.register_blueprint(swaggerui_blueprint_admin, url_prefix=os.getenv('SWAGGER_URL'))
+    # app.register_blueprint(swaggerui_blueprint_api, url_prefix=os.getenv('SWAGGER_URL_API'))
+
     app.register_blueprint(api_blueprint)
     app.register_blueprint(admin_blueprint)
 

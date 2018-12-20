@@ -2,6 +2,7 @@ import pytest
 from app import create_app
 import requests
 import json
+import os
 
 headers = dict()
 expirehead = dict()
@@ -13,7 +14,8 @@ def app():
 
 @pytest.fixture(scope = 'session', autouse=True)
 def tokenTest():
-    response=requests.request("POST",url='http://127.0.0.1:6968/api/sign', data={'username': 'ikan', 'password': 'fish'})
+    url = os.getenv('APP_HOST', 'localhost')+":"+os.getenv('APP_PORT', 5000)
+    response=requests.request("POST",url=url+'/admin/sign', data={'username': 'mongkey', 'password': 'mongkey'})
     result = response.json()
     tokensession=result['data']['apikey']
     global headers
@@ -25,7 +27,8 @@ def tokenTest():
 
 @pytest.fixture(scope = 'module', autouse=True)
 def expiredToken():
-    response=requests.request("POST",url='http://127.0.0.1:6968/api/sign', data={'username': 'testtoken', 'password': '1234'})
+    url = os.getenv('APP_HOST', 'localhost')+":"+os.getenv('APP_PORT', 5000)
+    response=requests.request("POST",url=url+'/admin/sign', data={'username': 'fish', 'password': 'ikan'})
     result = response.json()
     extokensession=result['data']['apikey']
     global expirehead

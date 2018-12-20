@@ -1,0 +1,144 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0",
+    "title": "IOT_ADRINI_API_ACCESS",
+    "description": "TODO: Add Description",
+    "contact": {}
+  },
+  "host": "127.0.0.1:6969",
+  "basePath": "/api",
+  "schemes": [
+    "http"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/get/410207509646999553/limit/8": {
+      "get": {
+        "description": "",
+        "summary": "GET_CHANNELS_DATA_BY_FIELD",
+        "operationId": "Get410207509646999553Limit8Get",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "sensor",
+            "in": "query",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "sensor1",
+            "in": "query",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "apikey",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/send/410207509646999553": {
+      "get": {
+        "description": "",
+        "summary": "SEND_DATA_TO_CHANNELS",
+        "operationId": "Send410207509646999553Get",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "sensor1",
+            "in": "query",
+            "required": true,
+            "type": "integer",
+            "format": "int32",
+            "description": ""
+          },
+          {
+            "name": "sensor2",
+            "in": "query",
+            "required": true,
+            "type": "integer",
+            "format": "int32",
+            "description": ""
+          },
+          {
+            "name": "sensor3",
+            "in": "query",
+            "required": true,
+            "type": "integer",
+            "format": "int32",
+            "description": ""
+          },
+          {
+            "name": "apikey",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/get/channels/410207509646999553": {
+      "get": {
+        "description": "",
+        "summary": "GET_CHANNELS_DATA",
+        "operationId": "GetChannels410207509646999553Get",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "count",
+            "in": "query",
+            "required": true,
+            "type": "integer",
+            "format": "int32",
+            "description": ""
+          },
+          {
+            "name": "apikey",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      }
+    }
+  },
+  "tags": []
+}
