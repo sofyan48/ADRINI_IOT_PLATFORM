@@ -63,4 +63,5 @@ api.add_resource(WidgetRemove, '/widget/<id_widget>')
 
 # POINT FITURED TRY
 api.add_resource(TestPoint, '/point_test')
+api.add_resource(Mquery, '/test')
 

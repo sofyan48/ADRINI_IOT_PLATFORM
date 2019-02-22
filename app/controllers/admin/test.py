@@ -16,3 +16,10 @@ class TestPoint(Resource):
         init_data = cmd.parser(json_req, command)
         a = ep.endpoint_parser(command, init_data)
         return response(200, data=a)
+
+class Mquery(Resource):
+    def get(self):
+        # a = db.query("insert into tb_moduls(id_channels, nm_field, value_field) values (410207509646999553, 'sensor4', '400')")
+        # a = db.query("SELECT * FROM tb_moduls").fetchone()
+        a = db.query("SELECT * FROM tb_moduls").fetchall()
+        print(a)

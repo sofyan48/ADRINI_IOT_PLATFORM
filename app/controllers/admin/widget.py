@@ -18,7 +18,8 @@ class WidgetResource(Resource):
             for i in results :
                 data = {
                     "id_widget": str(i['id_widget']),
-                    "nm_widget" : i['nm_widget']
+                    "nm_widget" : i['nm_widget'],
+                    "id_channels": str(i['id_channels'])
                 }
                 obj_userdata.append(data)
             return response(200, data=obj_userdata)
@@ -37,7 +38,8 @@ class WidgetResourceById(Resource):
         for i in results :
             data = {
                     "id_widget": str(i['id_widget']),
-                    "nm_widget" : i['nm_widget']
+                    "nm_widget" : i['nm_widget'],
+                    "id_channels": str(i['id_channels'])
                 }
             obj_userdata.append(data)
         return response(200, data=obj_userdata)
@@ -48,10 +50,12 @@ class WidgetInsert(Resource):
     def post(self):
         parser = reqparse.RequestParser()
         parser.add_argument('nm_widget', type=str, required=True)
+        parser.add_argument('id_channels', type=str, required=True)
         args = parser.parse_args()
 
         data_insert = {
-            "nm_widget" : args['nm_widget']
+            "nm_widget" : args['nm_widget'],
+            "id_channels" : args['id_channels'],
         }
         try:
             result = db.insert(table="tb_widget", data=data_insert)
@@ -102,7 +106,8 @@ class WidgetUpdate(Resource):
                 "id_widget": id_widget
             },
             "data":{
-                "nm_widget" : args['nm_widget']
+                "nm_widget" : args['nm_widget'],
+                "id_channels" : args['id_channels'],
             }
         }
         try:

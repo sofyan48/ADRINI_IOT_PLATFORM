@@ -19,7 +19,7 @@ class ModulsResource(Resource):
             for i in results :
                 data = {
                     "id_moduls": str(i['id_moduls']),
-                    "id_channels" : str(i['id_channels']),
+                    "id_widget" : str(i['id_widget']),
                     "nm_field" : i['nm_field'],
                     "value_field" : i['value_field'],
                     "created_at" : str(i['created_at']),
@@ -41,7 +41,7 @@ class ModulsResourceById(Resource):
         for i in results :
             data = {
                 "id_moduls": str(i['id_moduls']),
-                "id_channels" : str(i['id_channels']),
+                "id_widget" : str(i['id_widget']),
                 "nm_field" : i['nm_field'],
                 "value_field" : i['value_field'],
                 "created_at" : str(i['created_at']),
@@ -54,14 +54,14 @@ class ModulsInsert(Resource):
     @jwt_required
     def post(self):
         parser = reqparse.RequestParser()
-        parser.add_argument('id_channels', type=str, required=True)
+        parser.add_argument('id_widget', type=str, required=True)
         parser.add_argument('nm_field', type=str, required=True)
         parser.add_argument('value_field', type=str, required=True)
         args = parser.parse_args()
 
 
         data_insert = {
-            "id_channels" : args['id_channels'],
+            "id_widget" : args['id_widget'],
             "nm_field" : args['nm_field'],
             "value_field" : args['value_field']
         }
@@ -106,7 +106,7 @@ class ModulsUpdate(Resource):
     @jwt_required
     def put(self, id_moduls):
         parser = reqparse.RequestParser()
-        parser.add_argument('id_channels', type=str, required=True)
+        parser.add_argument('id_widget', type=str, required=True)
         parser.add_argument('nm_field', type=str, required=True)
         parser.add_argument('value_field', type=str, required=True)
         args = parser.parse_args()
@@ -116,7 +116,7 @@ class ModulsUpdate(Resource):
                 "id_moduls": id_moduls
             },
             "data":{
-                "id_channels" : args['id_channels'],
+                "id_widget" : args['id_widget'],
                 "nm_field" : args['nm_field'],
                 "value_field" : args['value_field']
             }
