@@ -1,11 +1,16 @@
 FROM alpine
-MAINTAINER Sofyan Saputra "sofyan@biznetgio.com"
+MAINTAINER Sofyan Saputra "admin@penapalu.club"
 
-RUN apk update
-RUN apk --no-cache add gcc musl-dev python3 python3-dev
-RUN pip3 install --upgrade pip
-COPY requirements.txt /
-RUN pip3 install -r /requirements.txt
+RUN apk update && \
+    mkdir /app
 WORKDIR /app
-EXPOSE 6969
+COPY . /app
+
+RUN apk update && \
+    apk --no-cache add gcc postgresql-dev musl-dev python3 python3-dev && \
+    pip3 install --upgrade pip
+
+RUN pip3 install -r requirements.txt
+
+EXPOSE 5000
 RUN apk del build-base
