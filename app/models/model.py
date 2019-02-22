@@ -85,3 +85,10 @@ def delete(table, field = None, value = None):
     else:
         return rows_deleted
 
+def query(q):
+    try:
+        db.execute(q)
+        return db
+    except (Exception, psycopg2.DatabaseError) as e:
+        raise e
+
