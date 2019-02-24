@@ -1,6 +1,5 @@
 # IOT_ADRINI
-Manage Your Knot Must Be Easy
-
+IOT PLATFORM ALL BOARD
 
 ## Installing
 
