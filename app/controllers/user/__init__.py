@@ -28,9 +28,6 @@ api.add_resource(BoardResource, '/board')
 # User Board
 api.add_resource(UserBoardResource, '/userboard')
 api.add_resource(UserBoardResourceById, '/userboard/<id_userboard>')
-api.add_resource(UserBoardInsert, '/userboard')
-api.add_resource(UserBoardUpdate, '/userboard/<id_userboard>')
-api.add_resource(UserBoardRemove, '/userboard/<id_userboard>')
 
 
 # Channels
