@@ -21,7 +21,7 @@ def my_expired_token_callback():
 
 @jwt.user_identity_loader
 def user_identity_lookup(user):
-    return user['id_userdata']
+    return str(user['id_userdata'])
 
 
 def user_loader(fn):
