@@ -75,7 +75,7 @@ class Usersignin(Resource):
             return response(status_code=401, data="Kampret")
         else:
             access_token = create_access_token(
-                                                identity=user[0]['id_userdata'],
+                                                identity=str(user[0]['id_userdata']),
                                                 expires_delta=expires
                                               )
 
