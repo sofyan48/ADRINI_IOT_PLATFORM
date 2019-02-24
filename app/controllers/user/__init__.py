@@ -24,10 +24,6 @@ api.add_resource(UserloginInsert, '/user/add')
 
 # Board
 api.add_resource(BoardResource, '/board')
-api.add_resource(BoardResourceById, '/board/<id_board>')
-api.add_resource(BoardInsert, '/board')
-api.add_resource(BoardUpdate, '/board/<id_board>')
-api.add_resource(BoardRemove, '/board/<id_board>')
 
 # User Board
 api.add_resource(UserBoardResource, '/userboard')
