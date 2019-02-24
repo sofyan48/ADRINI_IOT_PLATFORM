@@ -1,19 +1,27 @@
 from flask_restful import Resource, reqparse, fields
 from app.helpers.rest import *
 from app.helpers.memcache import *
-from app.middlewares.auth import jwt_required
+from app.middlewares.auth import jwt_required, get_jwt_identity
 from app.models import model as db
+from app import db as dbq
 
 
 class WidgetResource(Resource):
     @jwt_required
     def get(self):
         obj_userdata = list()
-        
+        id_userdata = str(get_jwt_identity())
+        column = db.get_columns('v_widget')
         try:
-            results = db.get_all("tb_widget")
-        except Exception:
-            return response(200, message="Data Not Found")
+            results = list()
+            query = "select * from v_widget where id_userdata='"+id_userdata+"'"
+            dbq.execute(query)
+            rows = dbq.fetchall()
+            for row in rows:
+                print(row)
+                results.append(dict(zip(column, row)))
+        except Exception as e:
+            return response(401, message=str(e))
         else:
             for i in results :
                 data = {
@@ -28,21 +36,28 @@ class WidgetResource(Resource):
 class WidgetResourceById(Resource):
     @jwt_required
     def get(self, id_widget):
-        obj_userdata = []
-        results = db.get_by_id(
-                    table="tb_widget",
-                    field="id_widget",
-                    value=id_widget
-                )
-
-        for i in results :
-            data = {
-                    "id_widget": str(i['id_widget']),
-                    "nm_widget" : i['nm_widget'],
-                    "id_channels": str(i['id_channels'])
-                }
-            obj_userdata.append(data)
-        return response(200, data=obj_userdata)
+        obj_userdata = list()
+        id_userdata = str(get_jwt_identity())
+        column = db.get_columns('v_widget')
+        try:
+            results = list()
+            query = "select * from v_widget where id_userdata='"+id_userdata+"' and id_widget='"+id_widget+"'"
+            dbq.execute(query)
+            rows = dbq.fetchall()
+            for row in rows:
+                print(row)
+                results.append(dict(zip(column, row)))
+        except Exception as e:
+            return response(401, message=str(e))
+        else:
+            for i in results :
+                data = {
+                        "id_widget": str(i['id_widget']),
+                        "nm_widget" : i['nm_widget'],
+                        "id_channels": str(i['id_channels'])
+                    }
+                obj_userdata.append(data)
+            return response(200, data=obj_userdata)
 
 
 class WidgetInsert(Resource):

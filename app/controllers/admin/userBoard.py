@@ -27,12 +27,12 @@ class UserBoardResource(Resource):
 
 class UserBoardResourceById(Resource):
     @jwt_required
-    def get(self, id_widget):
+    def get(self, id_userboard):
         obj_userdata = []
         results = db.get_by_id(
                     table="tb_userboard",
                     field="id_board",
-                    value=id_widget
+                    value=id_userboard
                 )
 
         for i in results :

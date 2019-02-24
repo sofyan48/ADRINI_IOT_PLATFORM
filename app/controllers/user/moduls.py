@@ -1,8 +1,9 @@
 from flask_restful import Resource, reqparse, fields
 from app.helpers.rest import *
 from app.helpers.memcache import *
-from app.middlewares.auth import jwt_required
+from app.middlewares.auth import jwt_required, get_jwt_identity
 from app.models import model as db
+from app import db as dbq
 import uuid
 
 
@@ -10,11 +11,18 @@ class ModulsResource(Resource):
     @jwt_required
     def get(self):
         obj_userdata = list()
-        
+        id_userdata = str(get_jwt_identity())
+        column = db.get_columns('v_moduls')
         try:
-            results = db.get_all("tb_moduls")
-        except Exception:
-            return response(200, message="Data Not Found")
+            results = list()
+            query = "select * from v_moduls where id_userdata='"+id_userdata+"'"
+            dbq.execute(query)
+            rows = dbq.fetchall()
+            for row in rows:
+                print(row)
+                results.append(dict(zip(column, row)))
+        except Exception as e:
+            return response(401, message=str(e))
         else:
             for i in results :
                 data = {
@@ -32,22 +40,29 @@ class ModulsResourceById(Resource):
     @jwt_required
     def get(self, id_moduls):
         obj_userdata = []
-        results = db.get_by_id(
-                    table="tb_moduls",
-                    field="id_moduls",
-                    value=id_moduls
-                )
-
-        for i in results :
-            data = {
-                "id_moduls": str(i['id_moduls']),
-                "id_widget" : str(i['id_widget']),
-                "nm_field" : i['nm_field'],
-                "value_field" : i['value_field'],
-                "created_at" : str(i['created_at']),
-            }
-            obj_userdata.append(data)
-        return response(200, data=obj_userdata)
+        id_userdata = str(get_jwt_identity())
+        column = db.get_columns('v_moduls')
+        try:
+            results = list()
+            query = "select * from v_moduls where id_userdata='"+id_userdata+"' and id_moduls='"+id_moduls+"'"
+            dbq.execute(query)
+            rows = dbq.fetchall()
+            for row in rows:
+                print(row)
+                results.append(dict(zip(column, row)))
+        except Exception as e:
+            return response(401, message=str(e))
+        else:
+            for i in results :
+                data = {
+                    "id_moduls": str(i['id_moduls']),
+                    "id_widget" : str(i['id_widget']),
+                    "nm_field" : i['nm_field'],
+                    "value_field" : i['value_field'],
+                    "created_at" : str(i['created_at']),
+                }
+                obj_userdata.append(data)
+            return response(200, data=obj_userdata)
 
 
 class ModulsInsert(Resource):
