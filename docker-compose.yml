@@ -6,7 +6,7 @@ services:
         - "5000:5000"
       volumes:
         - .:/app
-      command: ["python3","manage.py" ,"server"]
+      command: ["bash","run.sh" ,"2"]
       links:
         - "session"
 

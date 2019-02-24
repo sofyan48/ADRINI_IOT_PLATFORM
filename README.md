@@ -26,7 +26,7 @@ FLASK_REDIS_URL = redis://:pass@127.0.0.1:6379/0
 JWT_SECRET_KEY = wqertyudfgfhjhkcxvbnmn@123$32213
 
 ### DATABASE SETUP
-DB_NAME = knotdb
+DB_NAME = db_name
 DB_HOST = localhost
 DB_PORT = 26257
 DB_USER = root
@@ -73,4 +73,56 @@ sudo python manage.py server
 
 Installing CockroachDB Reference [action](https://www.cockroachlabs.com/docs/stable/)
 
-## Dockerize Development
+# Dockerize Development
+
+If you using docker
+
+## Environment File
+Create New Environment File save to .env or move .env.example 
+```
+mv .env.example .env
+```
+Value Environment File
+```
+### APP SETUP
+APP_NAME = IOT_ADRINI
+APP_HOST = 0.0.0.0
+APP_PORT = 6969
+SECRET_KEY = asdsagdasgdasf@asfdasgvdasda@#!@#!%$#%@#@@##
+MEMCACHE_HOST=127.0.0.1
+MEMCACHE_PORT=11211
+FLASK_DEBUG = True
+
+### REDIS SETUP
+FLASK_REDIS_URL = redis://:pass@session:6379/0
+
+### JWT SETUP
+JWT_SECRET_KEY = wqertyudfgfhjhkcxvbnmn@123$32213
+
+### DATABASE SETUP
+DB_NAME = db_name
+DB_HOST = localhost
+DB_PORT = 26257
+DB_USER = root
+DB_SSL = disable
+
+#### DOCS
+
+SWAGGER_URL = '/api/docs'
+SWAGGER_API_URL = 'http://127.0.0.1:6968/static/swagger.json'
+
+```
+## Building Image
+```
+docker build .
+```
+
+## Run Image
+```
+docker run -it -p 5000:5000 image sh run.sh 2
+```
+
+## Using Compose
+```
+docker-compose up
+```
