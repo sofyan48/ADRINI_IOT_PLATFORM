@@ -104,6 +104,7 @@ class GetChannelsData(Resource):
 class GetChannelDataByField(Resource):
     def get(self, id_channels,page):
         args = request.args
+        
         field = None
         for i in args:
             if field is None:
@@ -111,6 +112,7 @@ class GetChannelDataByField(Resource):
             else:
                 field = field+" or nm_widget='"+args[i]+"'"
         result_data= list()
+        
         column = db.get_columns("v_moduls")
         try:
             result = list()
@@ -130,8 +132,10 @@ class GetChannelDataByField(Resource):
             for i in result :
                 field = None
                 for a in arr_field:
-                    if arr_field[a] == i['nm_widget']:
-                        field = a
+                    if arr_field[a][0] == i['nm_widget']:
+                        field = arr_field[a][0]
+
+                print(field)
                 data = {
                     field : {
                         "id_moduls": str(i['id_moduls']),
