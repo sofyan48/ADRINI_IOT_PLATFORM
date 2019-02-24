@@ -70,7 +70,7 @@ Runing Server
 ``` bash
 sudo python manage.py server
 ```
-
+# Cockroach DB 
 Installing CockroachDB Reference [action](https://www.cockroachlabs.com/docs/stable/)
 
 # Dockerize Development
