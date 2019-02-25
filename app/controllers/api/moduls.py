@@ -10,6 +10,7 @@ from flask import request
 
 
 class SendModuls(Resource):
+    @apikey_required
     def get(self, id_channels):
         args = request.args
         report = []
