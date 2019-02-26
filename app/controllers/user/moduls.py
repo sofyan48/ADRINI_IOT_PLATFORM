@@ -1,14 +1,14 @@
 from flask_restful import Resource, reqparse, fields
 from app.helpers.rest import *
 from app.helpers.memcache import *
-from app.middlewares.auth import jwt_required, get_jwt_identity
 from app.models import model as db
 from app import db as dbq
+from app.middlewares.auth import login_required, get_jwt_identity
 import uuid
 
 
 class ModulsResource(Resource):
-    @jwt_required
+    @login_required
     def get(self):
         obj_userdata = list()
         id_userdata = str(get_jwt_identity())
@@ -37,7 +37,7 @@ class ModulsResource(Resource):
 
 
 class ModulsResourceById(Resource):
-    @jwt_required
+    @login_required
     def get(self, id_moduls):
         obj_userdata = []
         id_userdata = str(get_jwt_identity())
@@ -66,7 +66,7 @@ class ModulsResourceById(Resource):
 
 
 class ModulsInsert(Resource):
-    @jwt_required
+    @login_required
     def post(self):
         parser = reqparse.RequestParser()
         parser.add_argument('id_widget', type=str, required=True)
@@ -97,7 +97,7 @@ class ModulsInsert(Resource):
 
 
 class ModulsRemove(Resource):
-    @jwt_required
+    @login_required
     def delete(self, id_moduls):
         try:
             db.delete(
@@ -118,7 +118,7 @@ class ModulsRemove(Resource):
 
 
 class ModulsUpdate(Resource):
-    @jwt_required
+    @login_required
     def put(self, id_moduls):
         parser = reqparse.RequestParser()
         parser.add_argument('id_widget', type=str, required=True)

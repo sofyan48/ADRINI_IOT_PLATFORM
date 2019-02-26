@@ -1,14 +1,14 @@
 from flask_restful import Resource, reqparse, fields
 from app.helpers.rest import *
 from app.helpers.memcache import *
-from app.middlewares.auth import jwt_required, get_jwt_identity
 from app.models import model as db
 from app import db as dbq
+from app.middlewares.auth import login_required, get_jwt_identity
 import uuid
 
 
 class ChannelsResource(Resource):
-    @jwt_required
+    @login_required
     def get(self):
         obj_userdata = list()
         id_userdata = str(get_jwt_identity())
@@ -36,7 +36,7 @@ class ChannelsResource(Resource):
 
 
 class ChannelsResourceById(Resource):
-    @jwt_required
+    @login_required
     def get(self, id_channels):
         obj_userdata = []
         id_userdata = str(get_jwt_identity())
@@ -64,7 +64,7 @@ class ChannelsResourceById(Resource):
 
 
 class ChannelsInsert(Resource):
-    @jwt_required
+    @login_required
     def post(self):
         parser = reqparse.RequestParser()
         parser.add_argument('nm_channels', type=str, required=True)
@@ -97,7 +97,7 @@ class ChannelsInsert(Resource):
 
 
 class ChannelsRemove(Resource):
-    @jwt_required
+    @login_required
     def delete(self, id_channels):
         try:
             db.delete(
@@ -118,7 +118,7 @@ class ChannelsRemove(Resource):
 
 
 class ChannelsUpdate(Resource):
-    @jwt_required
+    @login_required
     def put(self, id_channels):
         parser = reqparse.RequestParser()
         parser.add_argument('nm_channels', type=str, required=True)

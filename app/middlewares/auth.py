@@ -1,41 +1,64 @@
 from app.models import model as db
 from app.helpers.rest import response
-from app import jwt
-from flask_jwt_extended import jwt_required
-from flask_jwt_extended import (
-                                JWTManager,
-                                create_access_token,
-                                get_jwt_identity,
-                                jwt_refresh_token_required
-                               )
+from app import redis_store
+from functools import wraps
+from flask import request
+import dill
 
 
-@jwt.expired_token_loader
-def my_expired_token_callback():
-    data = {
-        'msg': "The token has expired",
-        'sub_status': 42
-    }
-    return response(401, data=data)
+def get_jwt_identity():
+    access_token = request.headers['Access-Token']
+    stored_data = redis_store.get('{}'.format(access_token))
+    stored_data = dill.loads(stored_data)
+    try:
+        check_data = db.get_by_id("tb_userdata", "email", stored_data['email'])[0]
+    except Exception:
+        return check_data['id_userdata']
 
+def login_required(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if 'Access-Token' not in request.headers:
+            return response(400, message=" Invalid access token ")
+        else:
+            access_token = request.headers['Access-Token']
+            stored_data = redis_store.get('{}'.format(access_token))
+            if not stored_data:
+                return response(400, message=" Invalid access token ")
 
-@jwt.user_identity_loader
-def user_identity_lookup(user):
-    return user
+            stored_data = dill.loads(stored_data)
+            try:
+                check_data = db.get_by_id("tb_userdata", "email", stored_data['email'])[0]
+            except Exception:
+                data = {
+                    "email": stored_data['email'],
+                    "access": 1
+                }
+                db.insert("tb_userdata", data)
+        return f(*args, **kwargs)
+    return decorated_function
 
+def admin_required(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if 'Access-Token' not in request.headers:
+            return response(400, message=" Invalid access token ")
+        else:
+            access_token = request.headers['Access-Token']
+            stored_data = redis_store.get('{}'.format(access_token))
+            if not stored_data:
+                return response(400, message=" Invalid access token ")
 
-def user_loader(fn):
-    @wraps(fn)
-    def wrapper(*args, **kwargs):
-        username = get_jwt_identity()
-        user = db.get_by_id(
-                    table= "tb_user", 
-                    field="username",
-                    value=username
-                )
-        
-        if not user:
-            return response(404, message="User Not Found!")
-        g.user = user[0]
-        return fn(*args, **kwargs)
-    return wrapper
+            stored_data = dill.loads(stored_data)
+            try:
+                check_data = db.get_by_id("tb_userdata", "email", stored_data['email'])[0]
+            except Exception:
+                data = {
+                    "email": stored_data['email'],
+                    "access": 1
+                }
+                db.insert("tb_userdata", data)
+            if check_data['access'] != 0:
+                return response(400, message="You Not Authorized")
+        return f(*args, **kwargs)
+    return decorated_function

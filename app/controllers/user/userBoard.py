@@ -1,13 +1,13 @@
 from flask_restful import Resource, reqparse, fields
 from app.helpers.rest import *
 from app.helpers.memcache import *
-from app.middlewares.auth import jwt_required, get_jwt_identity
 from app.models import model as db
 from app import db as dbq
+from app.middlewares.auth import login_required, get_jwt_identity
 
 
 class UserBoardResource(Resource):
-    @jwt_required
+    @login_required
     def get(self):
         obj_userdata = list()
         id_userdata = str(get_jwt_identity())
@@ -34,7 +34,7 @@ class UserBoardResource(Resource):
 
 
 class UserBoardResourceById(Resource):
-    @jwt_required
+    @login_required
     def get(self, id_userboard):
         obj_userdata = []
         id_userdata = str(get_jwt_identity())

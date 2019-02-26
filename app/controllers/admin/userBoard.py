@@ -1,15 +1,14 @@
 from flask_restful import Resource, reqparse, fields
 from app.helpers.rest import *
 from app.helpers.memcache import *
-from app.middlewares.auth import jwt_required
 from app.models import model as db
+from app.middlewares.auth import admin_required
 
 
 class UserBoardResource(Resource):
-    @jwt_required
+    @admin_required
     def get(self):
         obj_userdata = list()
-        
         try:
             results = db.get_all("tb_userboard")
         except Exception:
@@ -26,7 +25,7 @@ class UserBoardResource(Resource):
 
 
 class UserBoardResourceById(Resource):
-    @jwt_required
+    @admin_required
     def get(self, id_userboard):
         obj_userdata = []
         results = db.get_by_id(
@@ -46,7 +45,7 @@ class UserBoardResourceById(Resource):
 
 
 class UserBoardInsert(Resource):
-    @jwt_required
+    @admin_required
     def post(self):
         parser = reqparse.RequestParser()
         parser.add_argument('id_board', type=str, required=True)
@@ -74,7 +73,7 @@ class UserBoardInsert(Resource):
 
 
 class UserBoardRemove(Resource):
-    @jwt_required
+    @admin_required
     def delete(self, id_widget):
         try:
             db.delete(
@@ -95,7 +94,7 @@ class UserBoardRemove(Resource):
 
 
 class UserBoardUpdate(Resource):
-    @jwt_required
+    @admin_required
     def put(self, id_userboard):
         parser = reqparse.RequestParser()
         parser.add_argument('id_board', type=str, required=True)
