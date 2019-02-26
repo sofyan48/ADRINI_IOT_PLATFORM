@@ -1,12 +1,12 @@
 from flask_restful import Resource, reqparse, fields
 from app.helpers.rest import *
 from app.helpers.memcache import *
-from app.middlewares.auth import jwt_required, get_jwt_identity
 from app.models import model as db
+from app.middlewares.auth import login_required
 
 
 class BoardResource(Resource):
-    @jwt_required
+    @login_required
     def get(self):
         obj_userdata = list()
         try:

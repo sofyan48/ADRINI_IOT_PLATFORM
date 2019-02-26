@@ -10,6 +10,7 @@ from flask import request
 
 
 class SendModuls(Resource):
+    @apikey_required
     def get(self, id_channels):
         args = request.args
         report = []
@@ -102,9 +103,9 @@ class GetChannelsData(Resource):
                 return response(200, data=result_data)
 
 class GetChannelDataByField(Resource):
+    @apikey_required
     def get(self, id_channels,page):
         args = request.args
-        
         field = None
         for i in args:
             if field is None:
@@ -112,7 +113,6 @@ class GetChannelDataByField(Resource):
             else:
                 field = field+" or nm_widget='"+args[i]+"'"
         result_data= list()
-        
         column = db.get_columns("v_moduls")
         try:
             result = list()

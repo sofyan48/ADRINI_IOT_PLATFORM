@@ -1,8 +1,5 @@
 from flask import Blueprint
 from flask_restful import Api
-from .user import *
-from .auth import *
-from .test import *
 from .board import *
 from .channels import *
 from .moduls import *
@@ -12,17 +9,6 @@ from .userBoard import *
 
 admin_blueprint = Blueprint("admin", __name__, url_prefix='/admin')
 api = Api(admin_blueprint)
-
-# User
-api.add_resource(UserdataResource, '/user')
-api.add_resource(UserdataResourceById, '/user/<userdata_id>')
-api.add_resource(UserdataInsert, '/user')
-api.add_resource(UserdataUpdate, '/user/<userdata_id>')
-api.add_resource(UserdataRemove, '/user/<userdata_id>')
-
-api.add_resource(Usersignin, '/sign')
-api.add_resource(UserTokenRefresh, '/sign/token')
-api.add_resource(UserloginInsert, '/user/add')
 
 # Board
 api.add_resource(BoardResource, '/board')
@@ -53,15 +39,9 @@ api.add_resource(ModulsInsert, '/moduls')
 api.add_resource(ModulsUpdate, '/moduls/<id_moduls>')
 api.add_resource(ModulsRemove, '/moduls/<id_moduls>')
 
-# widget
-# Moduls
 api.add_resource(WidgetResource, '/widget')
 api.add_resource(WidgetResourceById, '/widget/<id_widget>')
 api.add_resource(WidgetInsert, '/widget')
 api.add_resource(WidgetUpdate, '/widget/<id_widget>')
 api.add_resource(WidgetRemove, '/widget/<id_widget>')
-
-# POINT FITURED TRY
-api.add_resource(TestPoint, '/point_test')
-api.add_resource(Mquery, '/test')
 
