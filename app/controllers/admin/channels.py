@@ -1,16 +1,15 @@
 from flask_restful import Resource, reqparse, fields
 from app.helpers.rest import *
 from app.helpers.memcache import *
-from app.middlewares.auth import jwt_required
 from app.models import model as db
+from app.middlewares.auth import admin_required
 import uuid
 
 
 class ChannelsResource(Resource):
-    @jwt_required
+    @admin_required
     def get(self):
         obj_userdata = list()
-        
         try:
             results = db.get_all("tb_channels")
         except Exception:
@@ -28,7 +27,7 @@ class ChannelsResource(Resource):
 
 
 class ChannelsResourceById(Resource):
-    @jwt_required
+    @admin_required
     def get(self, id_channels):
         obj_userdata = []
         results = db.get_by_id(
@@ -49,7 +48,7 @@ class ChannelsResourceById(Resource):
 
 
 class ChannelsInsert(Resource):
-    @jwt_required
+    @admin_required
     def post(self):
         parser = reqparse.RequestParser()
         parser.add_argument('nm_channels', type=str, required=True)
@@ -82,7 +81,7 @@ class ChannelsInsert(Resource):
 
 
 class ChannelsRemove(Resource):
-    @jwt_required
+    @admin_required
     def delete(self, id_channels):
         try:
             db.delete(
@@ -103,7 +102,7 @@ class ChannelsRemove(Resource):
 
 
 class ChannelsUpdate(Resource):
-    @jwt_required
+    @admin_required
     def put(self, id_channels):
         parser = reqparse.RequestParser()
         parser.add_argument('nm_channels', type=str, required=True)
